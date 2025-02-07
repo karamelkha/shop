@@ -6,6 +6,7 @@ import { Menu } from "./pages/Menu/Menu";
 import { Card } from "./pages/Card/Card";
 import { Error } from "./pages/Error/Error";
 import { Layout } from "./layout/Layout/Layout.tsx";
+import { Product } from "./pages/Product/Product.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Menu /> },
       { path: "/card", element: <Card /> },
+      { path: "/product/:id", element: <Product /> },
     ],
   },
   {
