@@ -1,0 +1,1 @@
+export const PREFIX = './data/products.json';
