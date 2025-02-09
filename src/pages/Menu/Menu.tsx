@@ -5,22 +5,30 @@ import Search from "../../components/Search/Search";
 import { PREFIX } from "../../helpers/API";
 import { Product } from "../../interfaces/product.interface";
 import styles from "./Menu.module.css";
+import axios from "axios";
 
 export function Menu() {
   const [products, setProducts] = useState<Product[]>([]);
 
   const getMenu = async () => {
-    const res = await fetch(`${PREFIX}`);
     try {
-      if (!res.ok) {
-        return;
-      }
-      const data = (await res.json()) as Product[];
+      const { data } = await axios.get<Product[]>(`${PREFIX}`);
       setProducts(data);
     } catch (e) {
       console.error(e);
       return;
     }
+    // try {
+    //   const res = await fetch(`${PREFIX}`);
+    //   if (!res.ok) {
+    //     return;
+    //   }
+    //   const data = (await res.json()) as Product[];
+    //   setProducts(data);
+    // } catch (e) {
+    //   console.error(e);
+    //   return;
+    // }
   };
 
   useEffect(() => {
