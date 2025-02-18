@@ -10,25 +10,23 @@ import axios from "axios";
 export function Menu() {
   const [products, setProducts] = useState<Product[]>([]);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const getMenu = async () => {
     try {
+      setIsLoading(true);
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1000);
+      });
       const { data } = await axios.get<Product[]>(`${PREFIX}`);
       setProducts(data);
+      setIsLoading(false);
     } catch (e) {
       console.error(e);
       return;
     }
-    // try {
-    //   const res = await fetch(`${PREFIX}`);
-    //   if (!res.ok) {
-    //     return;
-    //   }
-    //   const data = (await res.json()) as Product[];
-    //   setProducts(data);
-    // } catch (e) {
-    //   console.error(e);
-    //   return;
-    // }
   };
 
   useEffect(() => {
@@ -42,16 +40,18 @@ export function Menu() {
         <Search placeholder="Введите блюдо или состав" />
       </div>
       <div>
-        {products.map((p) => (
-          <ProductCard
-            id={p.id}
-            name={p.name}
-            description={p.ingredients.join(", ")}
-            rating={p.rating}
-            price={p.price}
-            image={p.image}
-          />
-        ))}
+        {!isLoading &&
+          products.map((p) => (
+            <ProductCard
+              id={p.id}
+              name={p.name}
+              description={p.ingredients.join(", ")}
+              rating={p.rating}
+              price={p.price}
+              image={p.image}
+            />
+          ))}
+        {isLoading && <>Загрузка</>}
       </div>
     </div>
   );
